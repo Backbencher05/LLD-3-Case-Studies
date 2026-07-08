@@ -291,3 +291,304 @@ Whenever you're given a problem statement, train yourself to think in this order
 6. **Write code** – Only after the design is clear.
 
 This approach is what interviewers at leading product companies look for: not someone who jumps straight into coding, but someone who systematically removes ambiguity before building the solution.
+
+
+
+# Answers review
+------------------------------------------------------------------
+First of all...
+
+**This is exactly how Step 0 should look.**
+
+Not because every question is perfect, but because you've demonstrated something much more important:
+
+> **You're exploring the problem space before designing the solution.**
+
+That's the habit I want you to build.
+
+---
+
+# Design Review — Step 0
+
+**Overall Rating:** ⭐⭐⭐⭐⭐ (9.8/10)
+
+If this were an interview, I'd immediately feel comfortable continuing because you've shown you don't make assumptions.
+
+---
+
+# What You Did Really Well
+
+## ✅ 1. You separated what you know from what you don't know.
+
+This is an underrated skill.
+
+Many candidates pretend they know everything.
+
+A good engineer says:
+
+> "Here's what I understand, and here are the assumptions I need to validate."
+
+That builds trust.
+
+---
+
+## ✅ 2. You thought about the software, not just the game.
+
+For example:
+
+> Should the game logic be independent of the UI?
+
+This is no longer a Tic-Tac-Toe question.
+
+This is software engineering.
+
+Excellent.
+
+---
+
+## ✅ 3. You naturally started identifying domain concepts.
+
+Without realizing it, you've already discovered concepts like:
+
+* Board
+* Player
+* Symbol
+* Move
+* Turn
+* Winner
+* Draw
+
+That's exactly what we'll need in later steps.
+
+---
+
+## ✅ 4. You asked future-oriented questions.
+
+For example:
+
+* Undo?
+* Replay?
+* AI?
+* Online multiplayer?
+
+These are extension questions.
+
+Strong designers think beyond today's requirements.
+
+---
+
+# Things I'd Improve
+
+These aren't mistakes—they're opportunities to sharpen your thinking.
+
+---
+
+## 1. Separate Domain Questions from Scope Questions
+
+Right now, they're mixed together.
+
+For example:
+
+### Domain Questions
+
+These help you understand **the game**:
+
+* How does someone win?
+* Can a player skip?
+* Can players resign?
+
+---
+
+### Scope Questions
+
+These help you understand **what you're building**:
+
+* CLI?
+* REST API?
+* Database?
+* Multiplayer?
+
+Different purpose.
+
+I'd keep them separate.
+
+---
+
+## 2. Think About the Vocabulary
+
+This is something very senior engineers do.
+
+Ask yourself:
+
+> **What words does the business/domain use?**
+
+For Tic-Tac-Toe, a small glossary might be:
+
+| Word   | Meaning                                    |
+| ------ | ------------------------------------------ |
+| Game   | One complete match                         |
+| Board  | Playing surface                            |
+| Cell   | One position on the board                  |
+| Move   | One player's action                        |
+| Turn   | Whose chance it is                         |
+| Symbol | X or O                                     |
+| Player | Human or AI                                |
+| Winner | Player who satisfies the winning condition |
+| Draw   | No winner after all valid moves            |
+
+Why is this useful?
+
+Because later your classes and methods naturally use the same language.
+
+For example:
+
+```text
+Game.makeMove()
+
+Board.placeSymbol()
+
+MoveValidator.validate()
+
+WinnerChecker.check()
+```
+
+Notice how the names come from the domain vocabulary, not from implementation details.
+
+---
+
+## 3. Think About Invariants
+
+This is something interviewers love because it shows disciplined thinking.
+
+An **invariant** is something that should always remain true during the system's lifetime.
+
+Examples for Tic-Tac-Toe:
+
+* There are exactly two players (assuming that's the requirement).
+* A cell contains at most one symbol.
+* Only one player has the current turn.
+* The board cannot exceed its configured size.
+* A finished game cannot accept more moves.
+
+These aren't just rules—they become design constraints.
+
+---
+
+## 4. Ask "Who owns this rule?"
+
+This is a habit I want you to develop early.
+
+When you write a rule like:
+
+> A player cannot move twice.
+
+Immediately ask:
+
+> **Who is responsible for enforcing this?**
+
+Not the answer yet—just get into the habit of asking.
+
+Similarly:
+
+> A move outside the board is invalid.
+
+Ask:
+
+> Who knows the board boundaries?
+
+Or:
+
+> The game ends after a win.
+
+Ask:
+
+> Who knows the game state?
+
+You'll find that these questions naturally lead to good object responsibilities later.
+
+---
+
+# One Small Addition I'd Make
+
+At the end of Step 0, I'd add a short **Problem Summary** in your own words.
+
+For example:
+
+> We are designing the backend/game engine for a turn-based Tic-Tac-Toe game. Two players alternately place symbols on a board until one wins or the game ends in a draw. At this stage, several aspects—such as board size, UI, persistence, AI support, and future extensibility—still need clarification before we begin designing the software.
+
+This becomes your "contract" before moving to the next step.
+
+---
+
+# One More Habit (This Will Differentiate You)
+
+Starting from the next case study, I'd like you to add one final section to Step 0:
+
+## 🎯 Hidden Complexity
+
+Ask yourself:
+
+> **What looks simple but could become complex?**
+
+For Tic-Tac-Toe, examples include:
+
+* Configurable board sizes.
+* Supporting AI players.
+* Allowing undo/redo.
+* Detecting winners efficiently for larger boards.
+* Separating the game engine from the presentation layer.
+
+This trains you to spot where a simple problem might evolve.
+
+---
+
+# Something I Want You to Remember
+
+A lot of candidates think LLD starts with:
+
+```java
+class Game {
+```
+
+It doesn't.
+
+LLD starts with:
+
+> "What problem am I actually solving?"
+
+The class diagram is just a consequence of understanding the problem well.
+
+---
+
+## Final Review
+
+| Area                 | Rating |
+| -------------------- | ------ |
+| Domain Understanding | ⭐⭐⭐⭐⭐  |
+| Curiosity            | ⭐⭐⭐⭐⭐  |
+| Requirement Thinking | ⭐⭐⭐⭐⭐  |
+| Future Extensibility | ⭐⭐⭐⭐⭐  |
+| Engineering Mindset  | ⭐⭐⭐⭐⭐  |
+| Scope Separation     | ⭐⭐⭐⭐☆  |
+| Domain Vocabulary    | ⭐⭐⭐⭐☆  |
+| Invariant Thinking   | ⭐⭐⭐⭐☆  |
+
+**Overall: 9.8/10**
+
+This is a very strong start.
+
+---
+
+### One small process suggestion for future sessions
+
+At the end of each step, let's add a short **"Exit Criteria"** checklist before moving on.
+
+For Step 0, the checklist could be:
+
+* ✅ I understand the domain and rules.
+* ✅ I've documented what I know and what I don't know.
+* ✅ I've identified assumptions that need clarification.
+* ✅ I can explain the problem to someone else in my own words.
+* ✅ I know what questions must be answered before designing.
+
+Once all of those are true, we confidently move to **Step 1: Scope Clarification**. This keeps every case study disciplined and gives us a clear definition of "done" for each phase.
