@@ -1,8 +1,17 @@
 Great question. Since you want to prepare for **top product companies**, I'll answer this the way a senior engineer or interviewer would think—not just from a game perspective, but from a software design perspective.
 
+
 ---
 
 # Step 0 — Understanding the Domain
+
+## 1. Tell me everything you already know about Tic-Tac-Toe.
+## 2. Tell me everything you don't know.
+## 3. Ask every question that comes to your mind
+## 4. Mentor's Note
+## 5. Answers review
+
+
 
 ## 1. Tell me everything you already know about Tic-Tac-Toe.
 
@@ -84,41 +93,41 @@ A typical game flow is:
 ```
 Start Game
 
-↓
+    ↓
 
 Create Board
 
-↓
+    ↓
 
 Create Players
 
-↓
+    ↓
 
 Player 1 Move
 
-↓
+    ↓
 
 Check Winner
 
-↓
+    ↓
 
 If no winner
 
-↓
+    ↓
 
 Player 2 Move
 
-↓
+    ↓
 
 Repeat
 
-↓
+    ↓
 
 Winner or Draw
 
-↓
+    ↓
 
-Game Ends
+  Game Ends
 ```
 
 ---
@@ -275,7 +284,7 @@ If I were in an interview or speaking with a Product Manager, these are the kind
 
 ---
 
-# Mentor's Note
+## 4. Mentor's Note
 
 This exercise is not about Tic-Tac-Toe itself.
 
@@ -294,7 +303,9 @@ This approach is what interviewers at leading product companies look for: not so
 
 
 
-# Answers review
+
+
+## 5. Answers review
 ------------------------------------------------------------------
 First of all...
 
