@@ -171,7 +171,7 @@ That reasoning is more valuable than the choice itself.
 
 ---
 
-# Your Assignment
+## Your Assignment
 
 Answer these six sections:
 
@@ -195,7 +195,7 @@ Here's a question I often ask junior engineers:
 Think about it before you answer. There isn't a single "yes/no" response I'm looking for—I'm interested in your reasoning. This question will become very important when we later discuss separation of concerns and clean architecture.
 
 
-# My Answers :
+##  My Answers :
 
 here are your answers 
 Answer these six sections:
@@ -254,8 +254,9 @@ Save/Load
 
 will move step by step slowly, for now let's start what i have provided
 
+--------------------------------
 # Answer Feedback and Next
-
+----------------------------------
 Aditya...
 
 This is exactly why I was excited to mentor you through LLD.
@@ -492,7 +493,7 @@ These define the environment in which the system operates.
 ---
 
 # Here's how I'd organize the current version.
-
+-----------------------------------------------------
 ## Scope
 
 We're designing:
