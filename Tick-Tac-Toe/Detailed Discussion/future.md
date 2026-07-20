@@ -140,3 +140,41 @@ Move history visualization
 Redo functionality
 Custom game rules editor
 AI learning from previous games
+
+---------------------------------------------------
+
+Imagine Product keeps adding features.
+
+Version 1
+
+Basic gameplay.
+
+Version 2
+
+Undo last move.
+
+Version 3
+
+Replay game.
+
+Version 4
+
+Show move history.
+
+Version 5
+
+Export game.
+
+Version 6
+
+Spectator mode.
+
+Version 7
+
+AI analysis.
+
+Question:
+
+Which one of these becomes difficult if Moves don't exist?
+
+Which ones still work?
