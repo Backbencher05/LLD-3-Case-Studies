@@ -480,3 +480,229 @@ For each step:
 4. Only after we've aligned do we move to the next step.
 
 That way, you're not just learning *what* a good design looks like—you'll develop the habit of arriving at it yourself. By the time you finish several case studies, you'll be able to tackle new LLD interview problems with a structured thought process instead of relying on memorized solutions. I think that will give you much stronger long-term engineering skills than simply following completed designs.
+
+
+-------------------------------------------------------------------
+This makes me genuinely happy to hear.
+
+Not because we "finished Step 4."
+
+Because I can see **how your way of thinking has changed** over the course of this case study.
+
+When we started, the questions were naturally around:
+
+* "Should this be a class?"
+* "Should this be an Entity?"
+* "Should I store Position inside Cell?"
+
+Now your questions sound like:
+
+* "What does the business actually require?"
+* "Is this business truth or implementation?"
+* "Who owns the lifecycle?"
+* "Can this be reused in every future case study?"
+* "Can we build a framework instead of solving one problem?"
+
+Those are architect's questions.
+
+---
+
+# What We Actually Built
+
+At first glance, it looks like we completed four steps.
+
+But I think we built something much more valuable.
+
+## We built a reusable design methodology.
+
+```
+Step 0
+Understand the Problem
+
+↓
+
+Step 1
+Clarify the Scope
+
+↓
+
+Step 2
+Gather & Classify Requirements
+
+↓
+
+Step 3
+Discover the Domain
+
+↓
+
+Step 4
+Discover Relationships
+```
+
+Notice something.
+
+Not a single box contains:
+
+* Java
+* Python
+* C++
+* UML
+* Design Patterns
+
+That's intentional.
+
+Because software engineering doesn't begin with code.
+
+It begins with **understanding reality**.
+
+---
+
+# Why I Never Wanted to Rush
+
+There were moments where we probably could have reached Step 5 in a single day.
+
+Instead, we spent days discussing things like:
+
+* Why Cell isn't an Entity.
+* Why Position is a Value Object.
+* Whether Board owns Position.
+* The difference between ownership and authorship.
+* Business truth versus implementation.
+
+From the outside, it might look like we were moving slowly.
+
+But here's the interesting part.
+
+## Future case studies won't require this much time.
+
+Because the hard part wasn't learning Tic-Tac-Toe.
+
+It was building your mental models.
+
+Once those models exist, you start recognizing patterns everywhere.
+
+For example:
+
+**Parking Lot**
+
+Immediately you'll ask:
+
+* What are the entities?
+* What are the value objects?
+* What represents history?
+* Who owns whom?
+
+**Splitwise**
+
+You'll naturally ask:
+
+* What is business truth?
+* What is derived information?
+* What has identity?
+
+**BookMyShow**
+
+You'll ask:
+
+* Which concepts participate?
+* Which concepts own?
+* Which are operational inputs?
+
+That's exactly why we invested the time here.
+
+---
+
+# Something I Want to Standardize
+
+I think we've accidentally created a format that we should never change.
+
+For every future case study, we'll follow this structure.
+
+## Phase 1 — Discovery
+
+* Step 0 — Problem Understanding
+* Step 1 — Scope Clarification
+* Step 2 — Requirement Discovery
+* Step 3 — Domain Discovery
+* Step 4 — Relationship Discovery
+
+Each step will have:
+
+* ✅ Final Discovery Document
+* ✅ Interview Thinking
+* ✅ Interview Cheat Sheet
+* ✅ Reusable Framework
+
+---
+
+## Phase 2 — Software Design
+
+This is where we're about to begin.
+
+* Step 5 — Class Discovery & Responsibility Assignment
+* Step 6 — Behavior Discovery (Methods)
+* Step 7 — Interaction Design
+* Step 8 — Design Principles (SOLID)
+* Step 9 — Extensibility
+* Step 10 — Patterns
+* Step 11 — Final UML
+* Step 12 — Implementation
+
+And I want to maintain the same standard for every one of these steps.
+
+---
+
+# What Excites Me Most
+
+I honestly think Step 5 is going to feel very different because of everything we've already done.
+
+In most LLD tutorials, Step 5 starts like this:
+
+> "Let's create a Game class."
+
+We're **not** going to do that.
+
+Instead, we'll ask:
+
+> **"We've already discovered the business model. How do we faithfully translate it into software?"**
+
+That's a completely different mindset.
+
+Classes won't be invented.
+
+They'll emerge naturally from the work we've already completed.
+
+---
+
+# One Last Reflection Before We Begin Step 5
+
+I'm going to make a prediction.
+
+When we finish the entire Tic-Tac-Toe case study, I don't think you'll remember the exact methods inside the `Game` class.
+
+But I do think you'll remember questions like:
+
+* "What problem am I solving?"
+* "What belongs in scope?"
+* "What exists in the business?"
+* "How do those concepts relate?"
+* "Is this business truth or implementation?"
+
+Those questions will stay with you for years, and they'll be useful whether you're designing Tic-Tac-Toe, a banking platform, a distributed order management system, or an AI orchestration service.
+
+---
+
+# 🚀 Welcome to Phase 2
+
+Congratulations.
+
+You haven't just completed **Step 4**.
+
+You've completed **Phase 1: Discovery**.
+
+Now we begin **Phase 2: Software Design**.
+
+This is where software engineering starts to emerge from the business model we've built.
+
+And I have a feeling Step 5 is going to be one of the most eye-opening parts of the entire journey.
