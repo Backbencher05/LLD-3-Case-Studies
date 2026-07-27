@@ -670,9 +670,9 @@ That way of thinking scales far beyond Tic-Tac-Toe. Whether you're designing a p
 
 That's not just an object-oriented technique; it's a general engineering mindset for building systems that can grow without becoming fragile.
 
-
+-----------------------------------------------------------------------------------------------------
 ## Answers Feedback and Next
-
+-------------------------------------------------------------------------------------------------
 Aditya...
 
 I had to read your Part C twice.
