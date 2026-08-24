@@ -31,3 +31,7 @@ That information is temporary.
 
 - Methods answer: What can I do?
 - Attributes answer: What must I remember?
+
+
+# Class Diagram: 
+A class diagram is responsible only for communicating the static structure of a system. Behaviour, intent, lifecycle, and implementation details are communicated through other engineering representations.

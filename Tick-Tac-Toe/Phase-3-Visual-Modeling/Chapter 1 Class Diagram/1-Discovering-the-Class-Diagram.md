@@ -363,13 +363,13 @@ It prevents misunderstandings about object lifecycles.
 Without implementation details, show the typical collaboration:
 
 ```text
-Player
+ Player
    │
    ▼
-Game
+ Game
    │
    ▼
-Board
+ Board
    │
    ▼
 WinningCondition
