@@ -83,6 +83,41 @@ We'll discover
 
 ---
 
+PHASE 3 — VISUAL MODELLING
+│
+├── Chapter 1 — Class Diagram
+│   │
+│   ├── What is the software structurally?
+│   ├── Classes
+│   ├── Attributes
+│   ├── Responsibilities / operations
+│   ├── Relationships
+│   ├── Multiplicity
+│   ├── Lifecycle / ownership notation
+│   ├── Dependencies
+│   ├── Abstractions, if needed
+│   └── Final Tic-Tac-Toe Class Diagram
+│
+├── Chapter 2 — Sequence Diagram
+│   │
+│   ├── What happens over time?
+│   ├── Participants
+│   ├── Messages
+│   ├── Execution order
+│   ├── Conditions / alternatives
+│   └── Final interaction diagrams for key stories
+│
+└── Chapter 3 — State Diagram
+    │
+    ├── How does an object's lifecycle change?
+    ├── States
+    ├── Events
+    ├── Transitions
+    ├── Guards
+    ├── Invalid transitions
+    └── Final Game state model
+
+
 # But Before Drawing Anything...
 
 This is where many engineers make their first architectural mistake.

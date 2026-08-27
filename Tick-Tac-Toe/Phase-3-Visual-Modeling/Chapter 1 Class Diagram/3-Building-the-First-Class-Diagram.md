@@ -1297,3 +1297,1437 @@ We are about to discover one of the most common sources of confusion in class di
 
 Once you answer this, we will finally be ready to construct the actual first version of our `Game` representation and start connecting our system together.
 
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+# My Answer
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Excellent. This is the **exact distinction we need to discover before UML notation**.
+
+The key idea is:
+
+> **Internal state answers: "What condition is Game currently in?"**
+> **Relationship answers: "What other domain objects is Game connected to or collaborating with?"**
+
+An object reference can exist as a field in code, but at the architectural level, we may choose to communicate that same truth primarily as a **relationship**.
+
+---
+
+# 1. `status`
+
+### 1. Internal state or relationship?
+
+**Primarily: Internal state**
+
+`status` describes the condition of the `Game` itself.
+
+For example:
+
+* NOT_STARTED
+* IN_PROGRESS
+* WON
+* DRAW
+
+It doesn't point to another domain object that Game collaborates with. It answers:
+
+> "What is the current condition of this Game?"
+
+---
+
+### 2. High-level architectural diagram?
+
+**Show it inside the `Game` box.**
+
+```text
+Game
+  status
+```
+
+---
+
+### 3. Why?
+
+Because `status` is intrinsic knowledge.
+
+If we removed all other classes from the system, `Game` would still have a status.
+
+That is a useful test:
+
+> **Can this knowledge still make sense when I consider the object alone?**
+
+For `status`, yes.
+
+So it belongs inside the class representation.
+
+---
+
+# 2. `board`
+
+### 1. Internal state or relationship?
+
+**Primarily: A relationship**
+
+Yes, in code, Game may literally store:
+
+```text
+board -> Board object
+```
+
+But architecturally, `Board` is not just a piece of data belonging inside `Game`.
+
+It is another meaningful object with:
+
+* its own identity
+* its own knowledge
+* its own responsibilities
+* its own internal state
+
+So the more important truth is:
+
+> **Game has a relationship with Board.**
+
+---
+
+### 2. High-level architectural diagram?
+
+**Show it as a relationship line.**
+
+```text
+Game ───────── Board
+```
+
+Potentially the line can later communicate that Game owns or contains the Board, but we don't need that notation yet.
+
+I would **not initially duplicate `board` inside the Game box**.
+
+---
+
+### 3. Why?
+
+Writing this:
+
+```text
+Game
+  board
+```
+
+tells us only:
+
+> "Game knows something called board."
+
+But this:
+
+```text
+Game ───── Board
+```
+
+communicates something much more architecturally useful:
+
+> "Game and Board are two distinct concepts, and there is a structural connection between them."
+
+That distinction matters because `Board` deserves to be understood independently.
+
+### Decision: **Relationship line**
+
+---
+
+# 3. `players`
+
+### 1. Internal state or relationship?
+
+**Primarily: A relationship**
+
+Again, Game may internally hold a collection of Player references.
+
+But `Player` is a separate domain object.
+
+A Player has its own identity and responsibilities.
+
+The important architectural truth is not:
+
+> "Game has a variable called players."
+
+It is:
+
+> **"A Game has participants represented by Player objects."**
+
+---
+
+### 2. High-level architectural diagram?
+
+**Show it as a relationship line.**
+
+Conceptually:
+
+```text
+Game ───────── Player
+```
+
+The fact that there are multiple players can be added later when we discuss relationship quantity.
+
+---
+
+### 3. Why?
+
+`players` is technically part of Game's stored knowledge.
+
+But at the architectural abstraction level, showing it inside the box hides the more important idea:
+
+> **Game exists in a relationship with Player.**
+
+We want the new engineer to see `Player` as a first-class participant in the design.
+
+Not merely as a value hidden inside Game.
+
+### Decision: **Relationship line**
+
+---
+
+# 4. `currentPlayer`
+
+This one is more interesting.
+
+It can look like a relationship because it refers to a `Player`.
+
+But we need to ask:
+
+> **What is the most important meaning of this knowledge?**
+
+The answer is:
+
+> **The current turn state of the Game.**
+
+---
+
+### 1. Internal state or relationship?
+
+**Primarily: Internal state**
+
+Yes, it may reference a `Player` object.
+
+But its architectural meaning is different from `players`.
+
+`players` answers:
+
+> "Who participates in this Game?"
+
+`currentPlayer` answers:
+
+> "Which participant currently has the turn?"
+
+That is dynamic state belonging to the Game.
+
+---
+
+### 2. High-level architectural diagram?
+
+For our current abstraction level:
+
+**Show it inside the `Game` box.**
+
+```text
+Game
+  status
+  currentPlayer
+```
+
+However, there is an important subtlety.
+
+Because `currentPlayer` refers to a `Player`, a more detailed model could also communicate that connection through the Game–Player relationship.
+
+So at a later level of detail, we might model both truths:
+
+* Game is related to Players
+* Game identifies one of those Players as current
+
+But we should not automatically draw two separate relationships just because the code has two references.
+
+---
+
+### 3. Why?
+
+Because the architectural question is not:
+
+> "What is the data type?"
+
+The question is:
+
+> **"What truth are we trying to communicate?"**
+
+For `currentPlayer`, the primary truth is **turn state**.
+
+The Game owns the answer to:
+
+> "Whose turn is it right now?"
+
+Therefore, at the high level, it belongs with Game's internal state.
+
+### Decision: **Inside the box**
+
+---
+
+# 5. `winningCondition`
+
+### 1. Internal state or relationship?
+
+**Primarily: A relationship**
+
+`WinningCondition` is another meaningful software concept.
+
+It has a responsibility:
+
+> Determine whether the conditions for victory have been satisfied.
+
+Game may hold a reference to it.
+
+But the important architectural truth is:
+
+> **Game uses a WinningCondition to determine whether the game has been won.**
+
+That is collaboration between two objects.
+
+---
+
+### 2. High-level architectural diagram?
+
+**Show it as a relationship line.**
+
+```text
+Game ───────── WinningCondition
+```
+
+---
+
+### 3. Why?
+
+Writing:
+
+```text
+Game
+  winningCondition
+```
+
+can make it appear as though this is simply another value owned by Game, like `status`.
+
+But it isn't.
+
+`WinningCondition` contains its own responsibility and potentially its own implementation strategy.
+
+The relationship is the more important truth:
+
+> Game depends on or uses a rule object to evaluate victory.
+
+This becomes especially valuable when we later want to support different rules.
+
+For example:
+
+```text
+Game ───── WinningCondition
+              ├── ThreeInARow
+              ├── FourInARow
+              └── CustomRule
+```
+
+Now the architectural reason for making it a separate object becomes visible.
+
+### Decision: **Relationship line**
+
+---
+
+# Our Final Classification
+
+| Knowledge          | Primary Meaning                            | High-Level Representation |
+| ------------------ | ------------------------------------------ | ------------------------- |
+| `status`           | Game's own lifecycle condition             | **Inside Game**           |
+| `board`            | Connection to another domain object        | **Relationship**          |
+| `players`          | Connection to participating domain objects | **Relationship**          |
+| `currentPlayer`    | Game's current turn state                  | **Inside Game**           |
+| `winningCondition` | Connection to a separate policy object     | **Relationship**          |
+
+So our first high-level model might conceptually communicate:
+
+```text
+                    Board
+                      │
+                      │
+Player ──────────── Game ──────────── WinningCondition
+                      │
+              ----------------
+              status
+              currentPlayer
+```
+
+Again, this is not about the final notation.
+
+It is about **choosing the right level of communication**.
+
+---
+
+# The Deep Architectural Discovery
+
+We can now separate two things that often get mixed together.
+
+## Code perspective
+
+A class may contain:
+
+```text
+Game
+  board
+  players
+  currentPlayer
+  winningCondition
+```
+
+because these are all pieces of information Game needs access to.
+
+That is perfectly valid implementation thinking.
+
+## Architectural modelling perspective
+
+We ask a different question:
+
+> **What is the most useful way to communicate each piece of knowledge?**
+
+If the knowledge describes **Game itself**, show it as internal state.
+
+If the knowledge represents **another meaningful object that Game is structurally connected to**, show the connection between those objects.
+
+That means:
+
+> `board` may be a field in code, but `Game → Board` is the clearer architectural message.
+
+> `players` may be a collection in code, but `Game → Player` is the clearer architectural message.
+
+> `winningCondition` may be a reference in code, but `Game → WinningCondition` is the clearer architectural message.
+
+And:
+
+> `currentPlayer` may also be a reference in code, yet its primary architectural meaning is the current state of the Game.
+
+---
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+## Answers feedback and Next
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+This is **very good reasoning**.
+
+And you have now discovered one of the most important distinctions in software modelling:
+
+> **A piece of knowledge can be stored as a reference in code, while being represented as a relationship in an architectural model.**
+
+That distinction will prevent a lot of future class-diagram confusion.
+
+But let's slow down at one particularly interesting point.
+
+---
+
+# Your Classification Is Almost Perfect
+
+I agree with your high-level decisions:
+
+| Knowledge          | Primary meaning                       | High-level representation |
+| ------------------ | ------------------------------------- | ------------------------- |
+| `status`           | Game's own lifecycle condition        | Inside `Game`             |
+| `board`            | Relationship with a domain object     | Relationship              |
+| `players`          | Relationship with participant objects | Relationship              |
+| `currentPlayer`    | Current game state                    | Inside `Game`             |
+| `winningCondition` | Relationship with a policy object     | Relationship              |
+
+This gives us our first high-level structural model.
+
+```text
+                    Board
+                      │
+                      │
+Player ──────────── Game ──────────── WinningCondition
+
+                      │
+                      │
+              status
+              currentPlayer
+```
+
+Conceptually, this is correct.
+
+But I want to challenge `currentPlayer`.
+
+Not because your answer is wrong.
+
+Because it exposes a deeper modelling problem.
+
+---
+
+# The `currentPlayer` Problem
+
+You said:
+
+> "`currentPlayer` is primarily internal state because its architectural meaning is turn state."
+
+I agree with the **business meaning**.
+
+The Game absolutely owns the truth:
+
+> **Whose turn is it right now?**
+
+But now let's ask a different question:
+
+> **Where does the actual identity of the current player come from?**
+
+Suppose we have:
+
+```text
+Game
+ ├── Player A
+ └── Player B
+```
+
+And:
+
+```text
+currentPlayer = Player A
+```
+
+What is `currentPlayer`?
+
+Is it really an independent piece of knowledge?
+
+Or is it a **special selection within the existing Game–Player relationship**?
+
+That is a much deeper question.
+
+---
+
+# A Thought Experiment
+
+Imagine we represent this:
+
+```text
+Game
+-----------------
+status
+currentPlayer
+```
+
+Now a new engineer asks:
+
+> "What type is `currentPlayer`?"
+
+We answer:
+
+> `Player`.
+
+Immediately, the engineer needs to know:
+
+> Which Player?
+
+And the answer is:
+
+> One of the Players already associated with this Game.
+
+So conceptually:
+
+```text
+Game
+   │
+   │ has many
+   ▼
+Players
+
+One of them
+   ▲
+   │
+currentPlayer
+```
+
+This reveals something important.
+
+---
+
+# First Refinement
+
+`currentPlayer` is indeed **Game state**.
+
+But it is **relational state**.
+
+Let's derive that term ourselves before worrying about official terminology.
+
+Compare:
+
+### `status`
+
+```text
+status = IN_PROGRESS
+```
+
+The value belongs entirely to the Game.
+
+---
+
+### `currentPlayer`
+
+```text
+currentPlayer = Player X
+```
+
+The value represents Game state, but that state is expressed by referring to another object.
+
+So we have two different questions:
+
+### Who owns the truth?
+
+`Game`.
+
+### What does the truth refer to?
+
+One of its associated `Player` objects.
+
+These are not contradictory.
+
+This is a subtle but important modelling insight.
+
+> **Ownership of a fact and the object referenced by that fact are two different concepts.**
+
+---
+
+# Why This Matters
+
+This distinction appears everywhere in real systems.
+
+Imagine an Amazon order.
+
+```text
+Order
+---------
+status
+customer
+```
+
+`status` might be:
+
+```text
+SHIPPED
+```
+
+Clearly internal state.
+
+But:
+
+```text
+customer
+```
+
+is a relationship with another entity.
+
+Now consider:
+
+```text
+Order
+---------
+shippingAddress
+```
+
+Is that internal state?
+
+Maybe.
+
+Or is it a relationship?
+
+That depends on the model.
+
+And:
+
+```text
+assignedDeliveryPartner
+```
+
+The `Order` may own the truth:
+
+> "This is currently assigned to delivery partner X."
+
+But the delivery partner is a separate object.
+
+Exactly the same kind of reasoning applies to `currentPlayer`.
+
+This is why modelling cannot be reduced to:
+
+> "Primitive → attribute; object → relationship."
+
+That rule would be far too simplistic.
+
+---
+
+# 🚨 A Very Important Rule
+
+Never decide whether something belongs in the class box simply by asking:
+
+> "Is it an object?"
+
+Because then:
+
+```text
+board
+players
+winningCondition
+```
+
+would always become relationships.
+
+But also:
+
+```text
+currentPlayer
+```
+
+would automatically become one.
+
+And that doesn't necessarily communicate the meaning we want.
+
+Instead ask:
+
+> **What truth does this information communicate at the abstraction level of this diagram?**
+
+That is the architect's question.
+
+---
+
+# But Now We Have Another Problem
+
+We have just drawn:
+
+```text
+Game ───── Player
+```
+
+What does that line actually mean?
+
+Does it mean:
+
+* Game owns Player?
+* Player owns Game?
+* They merely know each other?
+* One Player can exist in many Games?
+* A Game always has exactly two Players?
+* Can a Game temporarily have zero Players?
+* Can Players exist after a Game ends?
+
+Look at how much ambiguity exists in one innocent line.
+
+```text
+Game ───── Player
+```
+
+This is precisely why UML relationships exist.
+
+Not to make diagrams fancy.
+
+Not to give us arrowheads to memorise.
+
+But because:
+
+> **A plain line is sometimes insufficient to communicate the architectural truth.**
+
+And now...
+
+the next discovery becomes unavoidable.
+
+---
+
+# Our Next Business Question
+
+Suppose I draw this:
+
+```text
+Game ───── Board
+```
+
+You and I know from our earlier design discussion that this relationship is important.
+
+But imagine a new engineer joins tomorrow.
+
+They ask:
+
+> **"What exactly does this connection mean?"**
+
+Before we learn **any UML relationship notation**, we need to discover the information that a relationship itself must communicate.
+
+Just as we previously asked:
+
+> What information must a class communicate?
+
+Now we ask:
+
+> **What information must a relationship communicate?**
+
+---
+
+## 🎯 Your Next Challenge
+
+For a relationship such as:
+
+```text
+Game ───── Board
+```
+
+or:
+
+```text
+Game ───── Player
+```
+
+Imagine there is no UML.
+
+You are inventing a visual modelling language from scratch.
+
+What information would another engineer need to know about the **connection itself**?
+
+Think beyond:
+
+> "`Game` is connected to `Board`."
+
+Ask questions such as:
+
+* What does each side know about the other?
+* Why does this connection exist?
+* Who owns whose lifecycle?
+* How many objects can participate?
+* How long does the relationship exist?
+* Can either object exist independently?
+* Is the relationship optional or mandatory?
+
+Don't just answer the bullets.
+
+Try to derive the **fundamental categories of information a relationship must communicate**.
+
+Once we discover those categories, UML association, multiplicity, aggregation, and composition will emerge naturally from our own reasoning rather than from a textbook list.
+
+And this is where our earlier work on **Association, Aggregation, and Composition** becomes especially valuable—we are now returning to those discoveries at exactly the point where the engineering problem genuinely requires them.
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+## My Answers
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Excellent. Now we are making the same discovery we made for a **class**, but for a **connection**.
+
+A class answers:
+
+> **What is this thing?**
+
+A relationship answers:
+
+> **What does this connection mean?**
+
+And this is important because:
+
+```text
+Game ───── Board
+```
+
+by itself communicates almost nothing beyond:
+
+> "There is some connection."
+
+A new engineer still cannot tell what kind of connection it is.
+
+So, if we were inventing a modelling language from scratch, we need to discover the **minimum truths another engineer needs to understand about a relationship**.
+
+---
+
+# First Principle
+
+A relationship is not fundamentally a line.
+
+It is a piece of architectural knowledge.
+
+The line is only a visual representation.
+
+Before deciding how to draw it, we should ask:
+
+> **What facts about this connection must survive when the code is hidden?**
+
+I think the relationship must communicate these fundamental categories.
+
+---
+
+# 1. Meaning — Why does this relationship exist?
+
+This is the first and most important question.
+
+Suppose we see:
+
+```text
+Game ───── Board
+```
+
+The first question should be:
+
+> **What does Board mean to Game?**
+
+Possible answers include:
+
+* Game **plays on** a Board.
+* Game **uses** a Board.
+* Game **contains** a Board.
+* Game **owns** a Board.
+
+These are not the same thing.
+
+For our Tic-Tac-Toe model, we might say:
+
+> **A Game uses a Board as the playing surface.**
+
+Or, depending on our ownership decision:
+
+> **A Game consists of a Board.**
+
+The important point is that the relationship needs a **semantic meaning**.
+
+Without this, the line is ambiguous.
+
+### Fundamental category:
+
+> **Purpose / Meaning of the relationship**
+
+This answers:
+
+> **Why are these two objects connected?**
+
+---
+
+# 2. Knowledge Direction — Who knows about whom?
+
+Now suppose Game and Board are connected.
+
+Does:
+
+* Game know Board?
+* Board know Game?
+* Both know each other?
+* Neither permanently know the other and one is only temporarily passed to the other?
+
+These are very different designs.
+
+For example:
+
+```text
+Game knows Board
+Board does not know Game
+```
+
+means the relationship is conceptually one-way.
+
+Game can say:
+
+> "This is my board."
+
+But Board cannot say:
+
+> "This is my game."
+
+That matters because knowledge direction affects coupling.
+
+### Fundamental category:
+
+> **Navigability / Knowledge direction**
+
+This answers:
+
+> **Which object holds knowledge of the other?**
+
+---
+
+# 3. Responsibility — What role does each side play?
+
+A relationship is not just about knowing another object.
+
+Each side has a role in the connection.
+
+For example:
+
+```text
+Game ───── Board
+```
+
+We might describe the roles as:
+
+* Game → **controller / orchestrator of gameplay**
+* Board → **playing surface**
+
+For:
+
+```text
+Game ───── Player
+```
+
+the roles might be:
+
+* Game → **match**
+* Player → **participant**
+
+This helps answer:
+
+> Why does each side need the other?
+
+This is slightly different from the overall meaning.
+
+"Meaning" explains why the connection exists.
+
+"Roles" explain what each participant represents **within that connection**.
+
+### Fundamental category:
+
+> **Roles in the relationship**
+
+---
+
+# 4. Cardinality — How many objects can participate?
+
+Now we ask:
+
+> One Game is connected to how many Boards?
+
+Probably:
+
+> One.
+
+But:
+
+> One Game is connected to how many Players?
+
+Probably:
+
+> Two.
+
+And the reverse questions matter too:
+
+> Can one Player participate in multiple Games?
+
+Potentially yes, over time.
+
+So these are different truths:
+
+```text
+One Game → One Board
+```
+
+```text
+One Game → Many Players
+```
+
+Cardinality tells us the quantitative structure of the relationship.
+
+### Fundamental category:
+
+> **Participation quantity / Cardinality**
+
+This answers:
+
+> **How many objects on one side can be connected to how many objects on the other side?**
+
+---
+
+# 5. Necessity — Is the relationship mandatory or optional?
+
+Consider a Game.
+
+Can it exist without a Board?
+
+If the answer is no:
+
+> Board is mandatory for a valid Game.
+
+Can Game exist before Players join?
+
+Maybe.
+
+Then Players could be optional during one phase of the Game lifecycle.
+
+Similarly:
+
+> Must every Player belong to a Game?
+
+Not necessarily.
+
+A Player could exist as a person/account independently and later participate in a Game.
+
+So the relationship should communicate whether participation is required.
+
+### Fundamental category:
+
+> **Optionality / Necessity**
+
+This answers:
+
+> **Can one object exist without being connected to the other?**
+
+---
+
+# 6. Ownership — Who is responsible for the relationship?
+
+This is a deeper architectural question.
+
+Suppose Game has a Board.
+
+Who is responsible for establishing and maintaining that connection?
+
+Possibilities:
+
+### Game owns the relationship
+
+Game decides:
+
+> "This is my Board."
+
+### Something else establishes it
+
+For example, a GameFactory creates both and connects them.
+
+Then Game uses Board, but perhaps does not control its lifecycle.
+
+We should distinguish:
+
+> Who knows about the relationship?
+
+from:
+
+> Who is responsible for creating or maintaining the relationship?
+
+Those are not necessarily the same.
+
+### Fundamental category:
+
+> **Relationship ownership / Management**
+
+This answers:
+
+> **Who establishes and maintains this connection?**
+
+---
+
+# 7. Lifecycle Dependency — Can they exist independently?
+
+This is related to ownership, but it is not identical.
+
+Suppose:
+
+```text
+Game ───── Board
+```
+
+Ask:
+
+> If Game disappears, should Board disappear?
+
+If yes, their lifecycles are strongly connected.
+
+If Board can continue existing independently, the relationship is weaker.
+
+For example:
+
+### Strong dependency
+
+```text
+Game created
+   ↓
+Board created for Game
+   ↓
+Game ends permanently
+   ↓
+Board also ceases to exist as part of that Game
+```
+
+### Independent existence
+
+```text
+Game uses existing Board
+   ↓
+Game ends
+   ↓
+Board still exists independently
+```
+
+This is a major architectural distinction.
+
+### Fundamental category:
+
+> **Lifecycle dependency**
+
+This answers:
+
+> **Does the existence of one object depend on the existence of the other?**
+
+---
+
+# 8. Duration — How long does the relationship exist?
+
+This is another dimension we haven't discussed yet.
+
+Some relationships exist for the entire lifetime of an object.
+
+For example:
+
+> A Game may remain connected to its Board for its entire lifetime.
+
+Other relationships may be temporary.
+
+For example:
+
+```text
+WinningCondition evaluates Board
+```
+
+Maybe `WinningCondition` receives the Board temporarily during evaluation.
+
+It does not necessarily remember that Board forever.
+
+So compare:
+
+### Persistent relationship
+
+```text
+Game ───── Board
+```
+
+Game continuously maintains knowledge of its Board.
+
+### Temporary collaboration
+
+```text
+WinningCondition → Board
+```
+
+WinningCondition may only need Board while checking for a winner.
+
+That is a different kind of connection.
+
+### Fundamental category:
+
+> **Relationship duration / Persistence**
+
+This answers:
+
+> **Is this connection maintained as part of the object's ongoing structure, or does it exist only temporarily during an interaction?**
+
+---
+
+# 9. Exclusivity — Can the related object be shared?
+
+This is closely related to cardinality, but it answers a different question.
+
+Suppose:
+
+```text
+Game ───── Board
+```
+
+Can the same Board simultaneously belong to two Games?
+
+Probably not in our model.
+
+But consider another example:
+
+```text
+Game ───── WinningCondition
+```
+
+Could the same `WinningCondition` object or rule be used by many Games?
+
+Possibly yes.
+
+So we need to distinguish:
+
+> How many objects can participate?
+
+from:
+
+> Can the same instance be shared?
+
+A relationship might be:
+
+* exclusive
+* shared
+
+### Fundamental category:
+
+> **Exclusivity / Shareability**
+
+This answers:
+
+> **Can this connected object participate in multiple relationships of this kind?**
+
+---
+
+# 10. Constraints — What rules govern the connection?
+
+Finally, some relationships have rules that cannot be understood through quantity alone.
+
+For example:
+
+```text
+Game ───── Player
+```
+
+We might say:
+
+* A Game requires exactly two Players before it starts.
+* The two Players must have different symbols.
+* `currentPlayer` must always be one of the Game's Players.
+
+These are rules about the relationship itself.
+
+They do not belong completely to Game alone or Player alone.
+
+They describe what must be true **because the relationship exists**.
+
+### Fundamental category:
+
+> **Relationship constraints**
+
+This answers:
+
+> **What must always be true about these objects while they are connected?**
+
+---
+
+# The Categories We Have Discovered
+
+Now let's step back.
+
+Without using any UML terminology, I would say a relationship may need to communicate:
+
+| Category                   | Fundamental Question                                |
+| -------------------------- | --------------------------------------------------- |
+| **Meaning**                | Why are these objects connected?                    |
+| **Knowledge Direction**    | Who knows about whom?                               |
+| **Roles**                  | What does each object represent in this connection? |
+| **Cardinality**            | How many can participate?                           |
+| **Necessity**              | Is the connection mandatory or optional?            |
+| **Relationship Ownership** | Who establishes and maintains the connection?       |
+| **Lifecycle Dependency**   | Can they exist independently?                       |
+| **Duration**               | Is the connection persistent or temporary?          |
+| **Exclusivity**            | Can the related object be shared?                   |
+| **Constraints**            | What rules must hold while connected?               |
+
+---
+
+# But Not Every Relationship Needs All of This
+
+This is extremely important.
+
+If we put all ten categories on every line, our diagrams would become unreadable.
+
+So now we need another architectural principle:
+
+> **A model should communicate the information necessary to remove meaningful ambiguity at its current level of abstraction.**
+
+For a high-level architectural diagram, perhaps we only need:
+
+1. **Meaning**
+2. **Knowledge direction**
+3. **Cardinality**
+4. **Lifecycle/ownership**, if it matters
+
+Then, when the design becomes more detailed, we may add:
+
+* optionality
+* duration
+* exclusivity
+* constraints
+
+---
+
+# Applying This to `Game ───── Board`
+
+Let's see how much ambiguity exists in this simple line.
+
+```text
+Game ───── Board
+```
+
+A richer mental model should eventually answer something like:
+
+### Meaning
+
+> A Game is played on a Board.
+
+### Knowledge direction
+
+> Game knows its Board.
+
+### Quantity
+
+> One Game has one Board.
+
+### Necessity
+
+> A valid playable Game requires a Board.
+
+### Lifecycle
+
+Depending on our final design:
+
+> The Board may be created as part of the Game and belong to that Game's lifecycle.
+
+### Constraints
+
+> The Board used by Game must support the dimensions required by that Game's rules.
+
+Now the engineer actually understands the connection.
+
+---
+
+# The Deeper Discovery
+
+We previously discovered that a class has to communicate:
+
+> **What is this object?**
+
+Now we discover that a relationship has to communicate:
+
+> **What is the nature of this connection?**
+
+And the nature of a connection has multiple dimensions.
+
+A relationship is therefore not simply:
+
+```text
+A ───── B
+```
+
+It is closer to a sentence:
+
+> **A knows/uses/owns/contains B, in a particular quantity, under particular existence and lifecycle rules.**
+
+That sentence contains the information our future visual modelling language must somehow communicate.
+
+---
+
+# The Principle to Carry Into UML
+
+Before we ever learn whether a line has:
+
+* an arrow,
+* a number,
+* a diamond,
+* or some other symbol,
+
+we should already know **what architectural question that symbol needs to answer**.
+
+Because notation should come last.
+
+The correct learning order is:
+
+> **First discover the information that must be communicated.
+> Then discover the distinctions between different kinds of relationships.
+> Only then learn the visual symbols used to communicate those distinctions.**
+
+And that is the real reason UML becomes much easier once we approach it from first principles.
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+## Answers feedback and Next
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
