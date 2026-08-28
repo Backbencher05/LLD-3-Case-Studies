@@ -3,3 +3,37 @@
 # what are the inputs, user intracting with 
 
 # once every 
+# think about it, we are going to play tic-tac-toe, what is the first button you are going to press, when everyone join the room 
+ 
+# we are taking about once you selected everythink, now you are intracting with game think on that percepective 
+
+# chossing symbol and all will happen in main class , prior to the game start , this is game controller 
+
+"""
+ let we start the game
+- status move to in progress once game start 
+IN loop 
+- display the board
+- player make some move on board
+- once player make the move , check for winer ..on every move
+- if no winner OR not all cell filled:
+    - change next player index (controller goes to next player)
+    - other player chance
+
+"""
+
+
+# game controller is not a main file , it is controlling the game part only 
+class GameController:
+
+    def start_game(self, size, player, winning_stg):
+        pass
+
+    def display_board(self):
+        pass
+
+    def take_move(self):
+        pass
+
+    def undo_move(self):
+        pass 
