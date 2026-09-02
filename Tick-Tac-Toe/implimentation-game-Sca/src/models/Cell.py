@@ -12,6 +12,7 @@ class Cell:
         self.column = column
         self.player = None
         # let's go for cell status
+        # initially cell status will be EMPTY
         self.status = CellStatus.EMPTY
 
         # let's go back to board

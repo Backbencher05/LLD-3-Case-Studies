@@ -1,0 +1,3 @@
+
+class IvalidPlayerException(Exception):
+    pass
