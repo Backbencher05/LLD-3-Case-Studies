@@ -1,3 +1,3 @@
 
-class IvalidPlayerException(Exception):
+class InvalidPlayerException(Exception):
     pass

@@ -13,6 +13,8 @@
 
 from src.models.board import Board
 from src.models.GameStatus import GameStatus
+from src.helper.GameBuilder import GameBuilder
+
 
 class Game:
     def __init__(self, dimension, players, winning_strategy):
@@ -27,4 +29,8 @@ class Game:
 
 # now if we start implimeting the  feature , the things we required after model 
 # - let first have main class 
-# - 
+# -
+#  
+    @staticmethod
+    def gameBuilder():
+        return GameBuilder()

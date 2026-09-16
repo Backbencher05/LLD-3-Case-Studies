@@ -16,3 +16,11 @@ class Cell:
         self.status = CellStatus.EMPTY
 
         # let's go back to board
+
+    def display(self):
+        if self.status == CellStatus.EMPTY:
+            print("| - |", end="")
+
+        # if cell have value print that value 
+        else:
+            print(f"| {self.player.symbol.symbol}", end="")

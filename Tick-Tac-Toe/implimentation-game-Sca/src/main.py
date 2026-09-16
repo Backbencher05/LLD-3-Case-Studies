@@ -5,6 +5,11 @@ from src.models.Symbol import Symbol
 from src.models.BotDifficulty import BotDifficulty
 from src.models.Bot import Bot
 
+# Input required from the user 
+# - dimention 
+# - Players 
+# - winning Strategy 
+
 if __name__ == '__main__':
     # in very begening we have a game controller 
     gc = GameController()

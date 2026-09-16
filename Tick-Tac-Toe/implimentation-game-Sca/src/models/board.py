@@ -18,3 +18,9 @@ class Board:
         self.grid = [[Cell(i,j) for j in range(board_size)] for i in range(board_size)]
 
         # now let's move ahead for player class 
+
+    def print_board(self):
+        for row in self.grid:
+            for cell in row:
+                cell.display()
+            print()
