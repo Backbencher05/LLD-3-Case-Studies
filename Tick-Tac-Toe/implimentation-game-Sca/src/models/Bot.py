@@ -14,3 +14,6 @@ class Bot(Player):
         self.difficulty = difficulty # will get it from user , for now let's sympity store it
 
     # let's go for symbol
+
+    def decide_cell(self, board):
+        pass
