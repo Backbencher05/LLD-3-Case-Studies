@@ -32,17 +32,21 @@ IN loop
 # game controller is not a main file , it is controlling the game part only 
 class GameController:
 
+    def __init__(self, gameService):
+        self.gameService = gameService
+
     def start_game(self, size, players, winning_stg):
-        pass
+        # validations if we have any 
+        self.gameService.start_game(size, players, winning_stg)
 
-    def display_board(self):
-        pass
+    def display_board(self, game):
+        self.gameService.display_game(game)
 
-    def take_move(self):
-        pass
+    def take_move(self, game):
+        self.gameService.take_move(game)
 
-    def undo_move(self):
-        pass 
+    def undo_move(self, game):
+        self.gameService.undo(game)
 
 
 # now all the logic goes to service and repo layer 
