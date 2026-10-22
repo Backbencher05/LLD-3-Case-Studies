@@ -23,4 +23,4 @@ class Cell:
 
         # if cell have value print that value 
         else:
-            print(f"| {self.player.symbol.symbol}", end="")
+            print(f"| {self.player.symbol.symbol} |", end="")

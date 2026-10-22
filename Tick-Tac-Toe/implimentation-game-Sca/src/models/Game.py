@@ -6,7 +6,7 @@
 # - list of players
 # - winning strategy 
 # - bot difficult (we can pass from player class , from main we we are setting the list of player we can pass it there)
-# - moves 
+# - moves (list of moves)
 # - next player turn: initially let's start it from 0th index 
 # - winner : initially winner will be : None
 # - game status: initially game status will be: inprogress
